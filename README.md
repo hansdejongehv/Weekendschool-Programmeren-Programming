@@ -9,3 +9,5 @@ The programming takes place in Scratch on Raspberry Pi as well as the Arduino ID
 The material is in Dutch.
 
 If you are interested in the material but you are not a Dutch speaker then feel free to raise an issue so that we can see whether parts of the material can be translated.
+
+Note: The material will get uploaded here during the first half of 2017. Until then you may already like to look at a part of the material in the repository Weekendschool-PiAndMore.
