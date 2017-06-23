@@ -1,166 +1,94 @@
-<?xml version='1.0' encoding='utf-8' ?>
-<config version='1.0' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mcp23s17="mcp23s17.xsd" xsi:noNamespaceSchemaLocation="config.xsd"
-	xsi:schemaLocation="mcp23s17 mcp23s17.xsd "
->
-
-	<!-- 
-    # =============================================================================================
-    # Copyright (C) 2015  Gerhard Hepp
-    #
-    # This program is free software; you can redistribute it and/or modify it under the terms of
-    # the GNU General Public License as published by the Free Software Foundation; either version 2
-    # of the License, or (at your option) any later version.
-    #
-    # This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-    # without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-    # See the GNU General Public License for more details.
-    #
-    # You should have received a copy of the GNU General Public License along with this program; if
-    # not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
-    # MA 02110, USA
-    # =============================================================================================
-		-->
-
-	<description>
-		Arduino UNO with custom program used as PORT and Analog expander. 
-		Needs arduino code arduino/arduinoUno/arduinoUno.ino in arduino UNO.
-    </description>
-
-	<!-- =========================================================================== -->
-	<adapter class='adapter.arduino.UNO_Adapter' name='UNO'>
-		<!--  Sample arduino communication. Needs arduino sketch programmed in arduino. -->
-
-        <!-- input and output methods in python are dynamically generated like 
-             - inputD4  for io@dir=out   [0..1]
-             - servoD6  for io@dir=servo [0..180]
-             - pwmD6    for io@dir=pwm   [0..255]
-             - outputD3 for io@dir=in    [0..1]
-        -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config version="1.0">
+    <description>Generated configuration from ScratchClientConfig</description>
+    <adapter class="adapter.arduino.UNO_Adapter" name="Eend">
         
-        <!-- digital input values are inputs for the adapter (but outputs for arduino) -->
-        
-        <output_value name='outputA5'>
-            <sensor name='KnopJoyStick' />
+        <!-- id = 'D2'  direction = 'in'  function = 'input_pullup' -->
+        <output_value name="outputD2">
+            <sensor name="KnopRechts"/>
         </output_value>
-
-        <output_value name='outputA4'>
-            <sensor name='KnopLinks' />
+        
+        <!-- id = 'D3'  direction = 'out'  function = 'pwm' -->
+        <input_value name="pwmD3">
+            <variable name="LED3Kleur-Groen"/>
+        </input_value>
+        
+        <!-- id = 'D5'  direction = 'out'  function = 'pwm' -->
+        <input_value name="pwmD5">
+            <variable name="LED3Kleur-Rood"/>
+        </input_value>
+        
+        <!-- id = 'D6'  direction = 'out'  function = 'pwm' -->
+        <input_value name="pwmD6">
+            <variable name="LED3Kleur-Blauw"/>
+        </input_value>
+        
+        <!-- id = 'D7'  direction = 'out'  function = 'output' -->
+        <input_value name="inputD7">
+            <variable name="LEDGroenRechts"/>
+        </input_value>
+        
+        <!-- id = 'D10'  direction = 'out'  function = 'servo' -->
+        <input_value name="servoD10">
+            <variable name="DraaiServo"/>
+        </input_value>
+        
+        <!-- id = 'D11'  direction = 'out'  function = 'servo' -->
+        <input_value name="servoD11">
+            <variable name="KantelServo"/>
+        </input_value>
+        
+        <!-- id = 'A2'  direction = 'out'  function = 'output' -->
+        <input_value name="inputA2">
+            <variable name="LEDRood"/>
+        </input_value>
+        
+        <!-- id = 'A3'  direction = 'out'  function = 'output' -->
+        <input_value name="inputA3">
+            <variable name="LEDGroenLinks"/>
+        </input_value>
+        
+        <!-- id = 'A4'  direction = 'in'  function = 'input_pullup' -->
+        <output_value name="outputA4">
+            <sensor name="KnopLinks"/>
         </output_value>
-
-        <input_value name='inputA3'>
-            <variable name='LEDGroenLinks' />
-        </input_value>
- 
-        <input_value name='inputA2'>
-            <variable name='LEDRood' />
-        </input_value>
         
-        <input_value name='inputD7'>
-            <variable name='LEDGroenRechts' />
-        </input_value>
-
-        <output_value name='outputD2'>
-            <sensor name='KnopRechts' />
+        <!-- id = 'A5'  direction = 'in'  function = 'input_pullup' -->
+        <output_value name="outputA5">
+            <sensor name="KnopJoyStick"/>
         </output_value>
-
-        <input_value name='pwmD3'>
-            <variable name='LED3Kleur-Groen' />
-        </input_value>
-
-        <input_value name='pwmD5'>
-            <variable name='LED3Kleur-Rood' />
-        </input_value>
         
-        <input_value name='pwmD6'>
-            <variable name='LED3Kleur-Blauw' />
-        </input_value>
-       
-        <input_value name='servoD10'>
-            <variable name='DraaiServo' />
-        </input_value>
-
-        <input_value name='servoD11'>
-            <variable name='KantelServo' />
-        </input_value>
-
-
-        <input_value name='command'>
-            <variable name='command' />
-        </input_value>
+        <!-- id = 'A6'  direction = 'in'  function = 'analog' -->
+        <output_value name="outputA6">
+            <sensor name="JoystickY"/>
+        </output_value>
         
-
-		<!-- output_value methods in python are dynamically generated like outputADA0 for analog@dir=in -->
-        <!-- AD-Values are outputs for the adapter (but inputs for arduino) -->
-		
-		<output_value name='outputA6'>
-			<sensor name='JoyStickY' />
-		</output_value>
-
-		<output_value name='outputA7'>
-			<sensor name='JoyStickX' />
-		</output_value>
- 
-        <!-- ==================================================== -->
-        <!--  on windows, use COMn, e.g. COM6  -->
-        <!--  on raspberry, use /dev/ttyn, e.g. /dev/ttyAMA0  -->
-         
-        <parameter name='serial.device' value='/dev/ttyUSB0' />
+        <!-- id = 'A7'  direction = 'in'  function = 'analog' -->
+        <output_value name="outputA7">
+            <sensor name="JoystickX"/>
+        </output_value>
         
-        <!--
-             <parameter name='serial.device' value='COM19' />
-         -->
-        <parameter name='serial.baud' value='115200' />
-
-        <!-- ==================================================== -->
-		<!-- this is the setup for an UNO arduino -->
-		
-        <!-- digital io lines -->
-        <!-- @dir = void, pwm, in, out, servo --> 
-      	<!-- @pullup= on -->
-      	
-      	<!-- do not use D0, D1 (serial  lines)  -->
-         	
-		<io id='D0' dir='void' />
-		<io id='D1' dir='void' />
-		
-		<!--  3,5,6,10,11 may be pwm -->
-		<io id='D3' dir='pwm' />
-		<io id='D2' dir='in' pullup='on' />
-
-		<io id='D4' dir='out' />
-		<io id='D5' dir='pwm' />
-		<io id='D6' dir='pwm' />
-		<io id='D7' dir='out' />
-		
-		<io id='D11' dir='servo' />
-
-		<io id='D8' dir='in' pullup='on' />
-		<io id='D9' dir='in' pullup='on' />
-		<io id='D10' dir='servo' />
-		<io id='D11' dir='servo' />
-
-		<io id='D12' dir='in' pullup='on' />
-		
-        <!--  do not use D13 (onboard LED)  -->
+        <extension>
+            <io dir="in" id="D2" pullup="on"/>
+            <io dir="pwm" id="D3"/>
+            <io dir="pwm" id="D5"/>
+            <io dir="pwm" id="D6"/>
+            <io dir="out" id="D7"/>
+            <io dir="servo" id="D10"/>
+            <io dir="servo" id="D11"/>
+            <analog dir="out" id="A2"/>
+            <analog dir="out" id="A3"/>
+            <analog dir="in" id="A4" pullup="on"/>
+            <analog dir="in" id="A5" pullup="on"/>
+            <analog dir="analog_in" id="A6"/>
+            <analog dir="analog_in" id="A7"/>
+        </extension>
         
-		<io id='D13' dir='void' />
-		
-		
-		<!-- ==================================================== -->
-        <!-- analog io lines -->
-        <!-- @dir = void      line not used  -->
-        <!-- @dir = in, out   line used as digital line, also in combination with pullup  -->
-        <!-- @dir = analog_in line used as analog input line -->
+        <parameter name="serial.device" value="/dev/ttyUSB0"/>
+        <parameter name="serial.baud" value="115200"/>
         
-        <analog id='A0' dir='analog_in'  />
-        <analog id='A1' dir='analog_in'  />
-        <analog id='A2' dir='out'  />
-        <analog id='A3' dir='out'  />
-        <analog id='A4' dir='in' pullup='on'  />
-        <analog id='A5' dir='in' pullup='on'  />
-        <analog id='A6' dir='analog_in'  />
-        <analog id='A7' dir='analog_in'  />
-
-	</adapter>
-
+        <!-- optional parameters for IDENT check -->
+        <parameter name="ident.check" value="yes"/>
+        <parameter name="ident.pattern" value="Eend"/>
+    </adapter>
 </config>
