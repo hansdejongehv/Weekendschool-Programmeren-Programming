@@ -1,0 +1,32 @@
+  // ===========================================================================================================================================================
+  // Put this code (till the next line of ===) in the statemachine_0001_entry() definition
+  const int TiltServoPin = 11;
+  const int PanServoPin = 10;
+
+  // digitalWrite(13, LOW);  
+  // delay(2000);
+  // digitalWrite(13, HIGH);  
+  // delay(2000); 
+  // digitalWrite(13, LOW);  
+  // delay(2000);
+  // digitalWrite(13, HIGH);  
+  // delay(2000);
+
+  // First make the tilt Servo object and put it up, before declaring the pan servo, because at that moment it will move to 90 and that may knock off the duck.
+  servoObject [TiltServoPin] = new Servo();
+  servoObject[TiltServoPin]->attach(TiltServoPin);
+  // sample write with value 23
+
+  delay(500);
+  servoObject[TiltServoPin]->write( 0);
+  delay (500);
+ 
+  servoObject [PanServoPin] = new Servo();
+  servoObject[PanServoPin]->attach(PanServoPin);
+  // sample write with value 23
+  
+  servoObject[PanServoPin]->write(100);
+  delay (500);
+  servoObject[TiltServoPin]->write(160);
+
+  // ===========================================================================================================================================================
