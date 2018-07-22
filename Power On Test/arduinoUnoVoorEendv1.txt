@@ -1,0 +1,265 @@
+  // ===========================================================================================================================================================
+  // Put this code (till the next line of ===) between CUSTOM_INITIALIZING_START and CUSTOM_INITIALIZING_END
+  // 
+  // Put this in the beginning between the markers CUSTOM_VERSION_START and CUSTOM_VERSION_END
+  //     "Duck version 1.0"
+  // Author: Hans de Jong
+  const int TiltServoPin = 11;
+  const int PanServoPin = 10;
+
+  #define LeftButtonPin       A4
+  #define RightButtonPin       2
+  #define LEDGreenRightPin     7
+  #define LEDGreenLeftPin     A3
+  #define LEDRedPin           A2
+  #define JoyStickButtonPin   A5
+  #define JoyStickXPin        A7
+  #define JoyStickYPin        A6
+  #define TiltServoConfigEEPROM     500
+  #define PanServoConfigEEPROM      501
+   
+
+  unsigned long TimeSinceStart;
+  int LEDMode;
+  int ServoMode;
+  int TiltServoConfig;
+  int PanServoConfig;
+  int ThresholdedValue;
+  
+  // digitalWrite(13, LOW);  
+  // delay(2000);
+  // digitalWrite(13, HIGH);  
+  // delay(2000); 
+  // digitalWrite(13, LOW);  
+  // delay(2000);
+  // digitalWrite(13, HIGH);  
+  // delay(2000);
+
+
+  pinMode (LeftButtonPin, INPUT_PULLUP);
+  pinMode (RightButtonPin, INPUT_PULLUP);
+  pinMode (LEDGreenRightPin, OUTPUT);
+  pinMode (LEDGreenLeftPin, OUTPUT);
+  pinMode (LEDRedPin, OUTPUT);
+  pinMode (JoyStickButtonPin, INPUT_PULLUP);
+
+  if (digitalRead(LeftButtonPin) == LOW && digitalRead(RightButtonPin) == LOW ) {
+    // setup of the packing up position.
+    // When turning on the LED, the user should release at least one button. If then the other button is released within 1 second, the previously stored values are used.
+    // When after 1 second one of the buttons is still pressed, the red LED is turned off, the green LEDs are are turned on and the default values are used. Turnservo to 90, Tilt servo to 0.
+    // Then the servo's are steered to those positions.
+    // The servo's are then movable by the joystick.
+    // When both buttons are pressed together, the current value is stored in EEPROM.
+    digitalWrite(LEDRedPin, HIGH); 
+    while ( digitalRead(LeftButtonPin) == LOW && digitalRead(RightButtonPin) == LOW ) {
+    }
+    
+    delay (1000);
+    if ( digitalRead(LeftButtonPin) == HIGH && digitalRead(RightButtonPin) == HIGH ) {
+      // Both buttons released: take the stored values from EEPROM
+
+      TiltServoConfig = EEPROM.read(TiltServoConfigEEPROM);
+      PanServoConfig = EEPROM.read(PanServoConfigEEPROM);
+      
+    } else {
+      digitalWrite(LEDRedPin, LOW); 
+      digitalWrite(LEDGreenRightPin, HIGH); 
+      digitalWrite(LEDGreenLeftPin, HIGH); 
+      TiltServoConfig = 0;
+      PanServoConfig = 90;
+    }
+
+    // wait till both buttons are released
+    while (digitalRead(LeftButtonPin) == LOW || digitalRead(RightButtonPin) == LOW ) {
+      
+    }
+
+    // First make the tilt Servo object and put it up, before declaring the pan servo, because at that moment it will move to 90 and that may knock off the duck.
+    servoObject [TiltServoPin] = new Servo();
+    servoObject[TiltServoPin]->attach(TiltServoPin);
+    
+    delay(500);
+    servoObject[TiltServoPin]->write( 0);
+    delay (500);
+     
+    servoObject [PanServoPin] = new Servo();
+    servoObject[PanServoPin]->attach(PanServoPin);
+
+    while ( digitalRead(LeftButtonPin) == HIGH || digitalRead(RightButtonPin) == HIGH  ) {
+      delay (150);
+
+      ThresholdedValue=analogRead(JoyStickYPin);
+      if ( ThresholdedValue < 480 || ThresholdedValue > 544 ){
+        TiltServoConfig = constrain(TiltServoConfig + map (ThresholdedValue, 300, 700, 2, -2 ), 0, 180);
+      }
+
+
+      ThresholdedValue=analogRead(JoyStickXPin);
+      if ( ThresholdedValue < 480 || ThresholdedValue > 544 ){
+        PanServoConfig = constrain(PanServoConfig  + map (ThresholdedValue, 300, 700, -2, 2 ), 0, 180); 
+      }
+ 
+      servoObject[PanServoPin]->write(PanServoConfig);
+      servoObject[TiltServoPin]->write(TiltServoConfig);              
+    }
+ 
+    if ( TiltServoConfig != EEPROM.read(TiltServoConfigEEPROM) ) {
+      EEPROM.write (TiltServoConfigEEPROM,TiltServoConfig);
+    }
+
+    if ( PanServoConfig != EEPROM.read(PanServoConfigEEPROM) ) {
+      EEPROM.write (PanServoConfigEEPROM,PanServoConfig);      
+    }
+
+    // Loop forever so that the only way to continue is to reset the chip
+    while (true) {
+      EndBlink();  
+    }
+ 
+  } else {
+      if (digitalRead(LeftButtonPin) == LOW ) {
+        // Power On Self Teset
+        TimeSinceStart=millis();
+        
+        // First make the tilt Servo object and put it up, before declaring the pan servo, because at that moment it will move to 90 and that may knock off the duck.
+        servoObject [TiltServoPin] = new Servo();
+        servoObject[TiltServoPin]->attach(TiltServoPin);
+        
+        delay(500);
+        servoObject[TiltServoPin]->write( 0);
+        delay (500);
+         
+        servoObject [PanServoPin] = new Servo();
+        servoObject[PanServoPin]->attach(PanServoPin);
+        
+        while(true) {
+          LEDMode = ((millis() - TimeSinceStart) / 500) % 3 ;
+          if (millis() - TimeSinceStart < 15000 ) ServoMode = ((millis() - TimeSinceStart) / 500) % 5 ; else ServoMode = -1;
+          if ( LEDMode == 0 ) {
+            digitalWrite(LEDGreenLeftPin, HIGH); 
+            if ( digitalRead(RightButtonPin) != LOW ) digitalWrite(LEDGreenRightPin, LOW); 
+          }
+          if ( LEDMode == 1 ) {
+            digitalWrite(LEDRedPin, HIGH); 
+            if ( digitalRead(JoyStickButtonPin) != LOW ) digitalWrite(LEDGreenLeftPin, LOW); 
+          }
+          if ( LEDMode == 2 ) {
+            digitalWrite(LEDGreenRightPin, HIGH); 
+            if ( digitalRead(RightButtonPin) != LOW ) digitalWrite(LEDRedPin, LOW); 
+          }  
+
+          
+          if ( digitalRead(LeftButtonPin) == LOW ) {
+             digitalWrite(LEDGreenLeftPin, HIGH);                            
+          } else {
+            if ( LEDMode != 0 ) digitalWrite(LEDGreenLeftPin, LOW); 
+          }
+
+          if ( digitalRead(JoyStickButtonPin) == LOW ) {
+             digitalWrite(LEDRedPin, HIGH);                            
+          } else {
+            if ( LEDMode != 1 ) digitalWrite(LEDRedPin, LOW); 
+          }
+
+          if ( digitalRead(RightButtonPin) == LOW ) {
+             digitalWrite(LEDGreenRightPin, HIGH);                            
+          } else {
+            if ( LEDMode != 2 ) digitalWrite(LEDGreenRightPin, LOW); 
+          }
+
+          if (ServoMode == 0 ) {
+            servoObject[PanServoPin]->write(0);
+            servoObject[TiltServoPin]->write(0);              
+          }
+
+           if (ServoMode == 1 ) {
+            servoObject[PanServoPin]->write(90);
+            servoObject[TiltServoPin]->write(0);              
+          }
+
+           if (ServoMode == 2 ) {
+            servoObject[PanServoPin]->write(90);
+            servoObject[TiltServoPin]->write(90);              
+          }
+
+           if (ServoMode == 3 ) {
+            servoObject[PanServoPin]->write(90);
+            servoObject[TiltServoPin]->write(0);              
+          }
+
+           if (ServoMode == 4 ) {
+            servoObject[PanServoPin]->write(180);
+            servoObject[TiltServoPin]->write(0);              
+          }
+
+          if (ServoMode == -1 ) {
+            servoObject[PanServoPin]->write(map(analogRead(JoyStickXPin),0,1023,0,180));
+            servoObject[TiltServoPin]->write(map(analogRead(JoyStickYPin),0,1023,180,0));              
+          }
+
+          
+
+         
+          
+          
+        }
+
+        
+       }
+       if (digitalRead(RightButtonPin) == LOW ) {
+          // This is the pack up mode to let the steer the duck to the a position where it can be packed.
+          // First make the tilt Servo object and put it up, before declaring the pan servo, because at that moment it will move to 90 and that may knock off the duck.
+          servoObject [TiltServoPin] = new Servo();
+          servoObject[TiltServoPin]->attach(TiltServoPin);
+          // sample write with value 23
+        
+          delay(500);
+          servoObject[TiltServoPin]->write( 0);
+          delay (500);
+         
+          servoObject [PanServoPin] = new Servo();
+          servoObject[PanServoPin]->attach(PanServoPin);
+          // sample write with value 23
+          
+          servoObject[PanServoPin]->write(EEPROM.read(PanServoConfigEEPROM));
+          delay (500);
+          servoObject[TiltServoPin]->write(EEPROM.read(TiltServoConfigEEPROM)); 
+          while (true) {
+            EndBlink();          
+          }
+                 
+       }
+  }
+  
+}
+
+void EndBlink() {
+  digitalWrite(LEDGreenRightPin, HIGH);   
+  delay (100);
+  digitalWrite(LEDGreenRightPin, LOW);   
+  digitalWrite(LEDGreenLeftPin, HIGH);   
+  delay (100);
+  digitalWrite(LEDGreenLeftPin, LOW); 
+  delay (500);  
+  digitalWrite(LEDGreenRightPin, HIGH);   
+  digitalWrite(LEDGreenLeftPin, HIGH);   
+  digitalWrite(LEDRedPin, HIGH);  
+  delay (100);                          
+  digitalWrite(LEDGreenRightPin, LOW);   
+  digitalWrite(LEDGreenLeftPin, LOW);   
+  digitalWrite(LEDRedPin, LOW);  
+  delay (500);                          
+  digitalWrite(LEDGreenRightPin, HIGH);   
+  digitalWrite(LEDGreenLeftPin, HIGH);   
+  digitalWrite(LEDRedPin, HIGH);  
+  delay (100);                          
+  digitalWrite(LEDGreenRightPin, LOW);   
+  digitalWrite(LEDGreenLeftPin, LOW);   
+  digitalWrite(LEDRedPin, LOW);  
+  delay (500);     
+}
+
+  // ===========================================================================================================================================================
+  
+
+
