@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config version="1.0">
+    <description>Generated configuration from ScratchClientConfig</description>
+    <adapter class="adapter.arduino.UNO_Adapter" name="Eend">
+        
+        <!-- id = 'D2'  direction = 'in'  function = 'input_pullup' -->
+        <output_value name="outputD2">
+            <sensor name="ButtonRight"/>
+        </output_value>
+        
+        <!-- id = 'D3'  direction = 'out'  function = 'pwm' -->
+        <input_value name="pwmD3">
+            <variable name="LED3Color-Green"/>
+        </input_value>
+        
+        <!-- id = 'D5'  direction = 'out'  function = 'pwm' -->
+        <input_value name="pwmD5">
+            <variable name="LED3Color-Red"/>
+        </input_value>
+        
+        <!-- id = 'D6'  direction = 'out'  function = 'pwm' -->
+        <input_value name="pwmD6">
+            <variable name="LED3Color-Blue"/>
+        </input_value>
+        
+        <!-- id = 'D7'  direction = 'out'  function = 'output' -->
+        <input_value name="inputD7">
+            <variable name="LEDGreenRight"/>
+        </input_value>
+        
+        <!-- id = 'D10'  direction = 'out'  function = 'servo' -->
+        <input_value name="servoD10">
+            <variable name="PanServo"/>
+        </input_value>
+        
+        <!-- id = 'D11'  direction = 'out'  function = 'servo' -->
+        <input_value name="servoD11">
+            <variable name="TiltServo"/>
+        </input_value>
+        
+        <!-- id = 'A2'  direction = 'out'  function = 'output' -->
+        <input_value name="inputA2">
+            <variable name="LEDRed"/>
+        </input_value>
+        
+        <!-- id = 'A3'  direction = 'out'  function = 'output' -->
+        <input_value name="inputA3">
+            <variable name="LEDGreenLeft"/>
+        </input_value>
+        
+        <!-- id = 'A4'  direction = 'in'  function = 'input_pullup' -->
+        <output_value name="outputA4">
+            <sensor name="ButtonLeft"/>
+        </output_value>
+        
+        <!-- id = 'A5'  direction = 'in'  function = 'input_pullup' -->
+        <output_value name="outputA5">
+            <sensor name="JoyStickButton"/>
+        </output_value>
+        
+        <!-- id = 'A6'  direction = 'in'  function = 'analog' -->
+        <output_value name="outputA6">
+            <sensor name="JoystickY"/>
+        </output_value>
+        
+        <!-- id = 'A7'  direction = 'in'  function = 'analog' -->
+        <output_value name="outputA7">
+            <sensor name="JoystickX"/>
+        </output_value>
+        
+        <extension>
+            <io dir="in" id="D2" pullup="on"/>
+            <io dir="pwm" id="D3"/>
+            <io dir="pwm" id="D5"/>
+            <io dir="pwm" id="D6"/>
+            <io dir="out" id="D7"/>
+            <io dir="servo" id="D10"/>
+            <io dir="servo" id="D11"/>
+            <analog dir="out" id="A2"/>
+            <analog dir="out" id="A3"/>
+            <analog dir="in" id="A4" pullup="on"/>
+            <analog dir="in" id="A5" pullup="on"/>
+            <analog dir="analog_in" id="A6"/>
+            <analog dir="analog_in" id="A7"/>
+        </extension>
+        
+        <parameter name="serial.device" value="/dev/ttyUSB0"/>
+        <parameter name="serial.baud" value="115200"/>
+        
+        <!-- optional parameters for IDENT check -->
+        <parameter name="ident.check" value="yes"/>
+        <parameter name="ident.pattern" value="Duck"/>
+    </adapter>
+</config>

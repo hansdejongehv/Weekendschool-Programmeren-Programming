@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config version="1.0">
+    <description>Generated configuration from ScratchClientConfig</description>
+    <adapter class="adapter.arduino.UNO_Adapter" name="scratchClient Beginners">
+        
+        <!-- id = 'D2'  direction = 'out'  function = 'output' -->
+        <input_value name="inputD2">
+            <variable name="BigGreenLED"/>
+        </input_value>
+        
+        <!-- id = 'D4'  direction = 'out'  function = 'output' -->
+        <input_value name="inputD4">
+            <variable name="BigRedLED"/>
+        </input_value>
+        
+        <!-- id = 'D7'  direction = 'in'  function = 'input_pullup' -->
+        <output_value name="outputD7">
+            <sensor name="Button"/>
+        </output_value>
+        
+        <extension>
+            <io dir="out" id="D2"/>
+            <io dir="out" id="D4"/>
+            <io dir="in" id="D7" pullup="on"/>
+        </extension>
+        
+        <parameter name="serial.device" value="/dev/ttyUSB0"/>
+        <parameter name="serial.baud" value="115200"/>
+        
+        <!-- optional parameters for IDENT check -->
+        <parameter name="ident.check" value="yes"/>
+        <parameter name="ident.pattern" value=""/>
+    </adapter>
+</config>
