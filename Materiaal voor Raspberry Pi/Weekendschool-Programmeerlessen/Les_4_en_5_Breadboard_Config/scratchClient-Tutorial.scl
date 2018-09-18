@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<config version="1.0">
+    <description>Generated configuration from ScratchClientConfig</description>
+    <adapter class="adapter.arduino.UNO_Adapter" name="scratchClient Beginners">
+        
+        <extension/>
+        
+        <parameter name="serial.device" value="/dev/ttyUSB0"/>
+        <parameter name="serial.baud" value="115200"/>
+        
+        <!-- optional parameters for IDENT check -->
+        <parameter name="ident.check" value="yes"/>
+        <parameter name="ident.pattern" value=""/>
+    </adapter>
+</config>

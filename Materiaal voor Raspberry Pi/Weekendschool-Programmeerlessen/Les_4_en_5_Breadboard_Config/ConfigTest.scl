@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<config version='1.0'
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="config.xsd" >
+	<!--
+	# ===========================================================================
+	# Copyright (C) 2013  Gerhard Hepp
+	#
+	# This program is free software; you can redistribute it and/or modify it under the terms of
+	# the GNU General Public License as published by the Free Software Foundation; either version 2
+	# of the License, or (at your option) any later version.
+	#
+	# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+	# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	# See the GNU General Public License for more details.
+	#
+	# You should have received a copy of the GNU General Public License along with this program; if
+	# not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
+	# MA 02110, USA
+	# ===========================================================================
+	-->
+
+	<description>Sample configuration</description>
+
+	<!-- =========================================================================== -->
+	<adapter class='adapter.test.TestAdapter' name='TestAdapter'>
+		
+		<description>A test adapter. Provides Output update every some seconds. äöüÄÖÜ</description>
+		
+	
+		<input name='low'>
+			<broadcast name='led1_OFF'/>
+			<broadcast name='led1_AUS'/>
+			<broadcast name='led1_off'/>
+		</input>
+
+		<input name='high'>
+			<broadcast name='led1_ON'/>
+		</input>
+		
+		<input_value name='inValue'>
+			<variable name='apfel'/>
+		</input_value>
+
+		<output name='event'>
+			<broadcast name='testEvent'/>
+		</output>
+		
+        <output_value name='test'>
+            <sensor name='test22'/>
+        </output_value>
+        
+        <output_value name='iValue'>
+            <sensor name='iValue'/>
+        </output_value>
+        
+        <output_value name='toggleValue'>
+            <sensor name='toggleValue'/>
+        </output_value>
+        
+        <output_value name='sValue'>
+            <sensor name='sValue'/>
+        </output_value>
+        
+        <output_value name='fValue'>
+            <sensor name='fValue'/>
+        </output_value>
+        <output_value name='adcValue'>
+            <sensor name='adcValue'/>
+        </output_value>
+
+        <!-- <parameter name='poll.interval' value='1' />
+        <parameter name='poll.interval2' value='0.05' />
+         -->
+         <parameter name='poll.interval' value='4' />
+        <parameter name='poll.interval2' value='4' />
+
+	</adapter>
+
+</config>
