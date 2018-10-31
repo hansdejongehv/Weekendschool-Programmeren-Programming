@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# This script will ask the user for a new date and time to be set.
+# Then it will create a hidden file in the controldirectory called .WriteOutTime
+# It will then ask the user to insert a USB stick on which this new time stamp can be transported
+# After that it exits 
+# The actual writing of the file .LastSetTime to the USB stick is done via a cron process
+
+ControlDir=~/.SCControlDir
+FlagFile=WriteOutTime
+TimeForInsertingUSBStick=60	# time in seconds to report that the user has to insert a USB stick
+USBVolumeLabel=WS_PROGR
+USBDirectory=NewDateTime
+
+
+#----------------------------------------------------------------------------------------------------------------
+#string definitions for multiple languages. Default is English. They can be overwritten dependent on the language
+#----------------------------------------------------------------------------------------------------------------
+SpecifyTime1="Specify the new time to be set in this format: yyyy-mm-dd HH:MM"
+SpecifyTime2="Hit ENTER if the current time is correct and "
+SpecifyTime3="you only want to prepare it to go to a USB stick"
+CurrentTime="Current time is"
+InsertUSB1="Insert a USB stick with volume label  %s  \n"
+InsertUSB2="containing a directory  %s \n" 
+InsertUSB3="to transport the then current time to the \n"
+InsertUSB4="other machines. Do so within %s seconds. \n"
+InsertUSB5="Wait with taking the USB stick out till \n"
+InsertUSB6="you get a pop-up message to do so. \n"
+InsertUSB7="Hit ENTER to close. \n"
+
+
+if [ ${LANG:0:2}=nl ]
+then
+	SpecifyTime1="$SpecifyTime1"
+fi
+
+# Loop until the date command accepts the newly specified time
+result=1
+while [ $result = 1 ] 
+do
+	echo $SpecifyTime1
+	echo $SpecifyTime2
+	echo $SpecifyTime3
+	echo $CurrentTime
+	date "+%F %H:%M"
+	read NewDateTime
+	sudo date -s "$NewDateTime"
+	result=$?
+	#echo result=$result
+done
+
+
+echo "This file indicates that the cron driven process should write out the then current time to the USB stick rather than take a file with a timestamp from the USB stick" > $ControlDir/$FlagFile
+
+printf "\n"
+printf "$InsertUSB1" $USBVolumeLabel
+printf "$InsertUSB2" $USBDirectory
+printf "$InsertUSB3"
+printf "$InsertUSB4" $TimeForInsertingUSBStick
+printf "\n"
+printf "$InsertUSB5"
+printf "$InsertUSB6"
+printf "$InsertUSB7"
+read dummy
+

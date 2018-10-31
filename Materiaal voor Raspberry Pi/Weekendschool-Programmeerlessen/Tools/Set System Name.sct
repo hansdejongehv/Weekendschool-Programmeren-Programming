@@ -1,0 +1,22 @@
+#!/bin/bash
+
+ControlDir=~/.SCControlDir
+SystemNameFile=SystemName
+
+SystemNamePath=$ControlDir/$SystemNameFile
+
+if [ -e $SystemNamePath ] 
+then
+	echo "Current System Name is:"
+	cat $SystemNamePath 
+	echo "Type a new name (see sticker above the HDMI port) or hit Enter to keep it"
+else
+	echo "What is the system name (see sticker above the HDMI port)"
+fi
+
+read SystemName
+
+if [ "X$SystemName" != X ]
+then
+	echo "$SystemName" > $SystemNamePath
+fi
