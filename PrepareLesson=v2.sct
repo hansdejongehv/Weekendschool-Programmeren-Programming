@@ -1,0 +1,72 @@
+#!/bin/bash
+# ResultsDirThisSystemOnUSB
+
+Desktop=/home/pi/Desktop
+LocalResultsBackup=$Desktop/ScratchPgms-Backup
+
+echo 00 = Remove previous files
+
+echo 1x = Dutch
+echo 2x = English
+echo 3x = German
+
+echo x1 = Weekendschool Les 1B - Red de prinses
+echo x2 = Weekendschool Les 2A
+echo x3 = Scratchclient Tutorials
+
+read selection
+
+set -x
+
+case "$selection" in
+00)
+	for f in $Desktop/*
+	do
+		notify-send "$f"
+		if [ ! -d "$f" ] && [ -e "$f" ] 
+		then
+			case "$f" in 
+			*.sbx|*.sb2|*.ods|*.txt|*.scl)
+
+				mv "$f" $LocalResultsBackup
+				;;
+			*.pdf)
+				mv "$f" $LocalResultsBackup
+				;;
+			esac
+		fi
+
+		read a
+		
+		if [ -d "$f" ] 
+		then
+			# echo "$f"
+			case "$f" in
+			*Geluiden*)
+				mv "$f" $LocalResultsBackup
+				;;
+			*ScratchPgms-Backup)
+				read ab
+				;;
+			*Begeleider)
+				;;
+			*)
+				read de
+				mv "$f" $LocalResultsBackup
+				;;
+			esac
+		fi
+	done
+	read abc
+	;;
+	
+11) cp -r '/home/pi/Weekendschool-Programming/Weekendschool-Programmeerlessen/Les_1B_Red_de_prinses/Originelen/*' "$Desktop"
+	;;
+
+12) cp -r "/home/pi/Weekendschool-Programming/Weekendschool-Programmeerlessen/Les_2A_Spel_met_de_eend/Originelen/*" "$Desktop"
+	;;
+
+esac
+
+read ghi
+
