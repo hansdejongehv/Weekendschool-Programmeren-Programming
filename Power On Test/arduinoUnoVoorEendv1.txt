@@ -1,9 +1,10 @@
   // ===========================================================================================================================================================
   // Put this code (till the next line of ===) between CUSTOM_INITIALIZING_START and CUSTOM_INITIALIZING_END
+  // and remove the closing curly bracket after CUSTOM_INITIALIZING_END
   // 
   // Put this in the beginning between the markers CUSTOM_VERSION_START and CUSTOM_VERSION_END
-  //     "Duck version 1.0"
-  // Author: Hans de Jong
+  //     " Duck version 1.0 recreated"
+  // Author of Custom version: Hans de Jong
   const int TiltServoPin = 11;
   const int PanServoPin = 10;
 

@@ -61,9 +61,10 @@
 #define HELP_COMPLETE
 // ----------------------------------------------------------------
 
-char version[] = "arduinoUno, version 2018-02-25"
+char version[] = "arduinoUno, version 2018-11-19"
                  // CUSTOM_VERSION_START
-                 " - Duck v1"
+                     " Duck version 1.0 recreated"
+                       // Author of Custom version: Hans de Jong
                  // CUSTOM_VERSION_END
                  ;
 
@@ -335,7 +336,7 @@ void _timeout() {
   timeoutMillis ++;
   if ( timeoutMillis > nextTimeoutEvent ) {
     timeoutEnable = FALSE;
-    // stateMachine(STATEMACHINE_EVENT_TIMEOUT);
+    stateMachine(STATEMACHINE_EVENT_TIMEOUT);
   }
 }
 
@@ -364,19 +365,12 @@ void statemachine_S0001_entry() {
   // ------ leave these tags CUSTOM_INITIALIZING in code
   // CUSTOM_INITIALIZING_START
 
-  // if it is needed to set servo to a defined position after reset,
-  // then for servo pin N
-  // servoObject [N] = new Servo();
-  // servoObject[N]->attach(N);
-  // sample write with value 23
-  // servoObject[N]->write( 23);
-
-
   // ===========================================================================================================================================================
   // Put this code (till the next line of ===) between CUSTOM_INITIALIZING_START and CUSTOM_INITIALIZING_END
+  // and remove the closing curly bracket after CUSTOM_INITIALIZING_END
   // 
   // Put this in the beginning between the markers CUSTOM_VERSION_START and CUSTOM_VERSION_END
-  //     "Duck version 1.0"
+  //     "Duck version 1.0 recreated"
   // Author: Hans de Jong
   const int TiltServoPin = 11;
   const int PanServoPin = 10;
@@ -641,7 +635,7 @@ void EndBlink() {
 
   // CUSTOM_INITIALIZING_END
 
-}
+
 
 void statemachine_S0001_exit() {
   timeoutEnable = FALSE;
